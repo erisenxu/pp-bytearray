@@ -25,7 +25,7 @@ console.log(baMsg.getUint64(5)); // 18446744073709551615
 console.log(baMsg.length);      // 13
 
 baMsg.buffer.writeUInt32BE(0xf0f0f0f0, 1);  // To write bytes by pos.
-console.log(baMsg.getUint32(1)); // 4042322160 (ie. 0xf0f0f0f0)
+console.log(baMsg.getUint32(1)); // 4042322160 (=0xf0f0f0f0)
 
 console.log(ByteArray.bytesToPrintable(baMsg.getBytes()));
 // output:
