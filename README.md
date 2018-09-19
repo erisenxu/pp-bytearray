@@ -42,7 +42,7 @@ console.log(ByteArray.bytesToPrintable(baMsg.getBytes()));
     <li>ByteArray.prototype.appendUint32(v):ByteArray</li>
     <li>ByteArray.prototype.appendInt64(v:String):ByteArray</li>
     <li>ByteArray.prototype.appendUint64(v:String):ByteArray</li>
-    <li>ByteArray.prototype.appendBytes(v:array,[offset, length]):ByteArray</li>
+    <li>ByteArray.prototype.appendBytes(v:array[,offset [,length]]):ByteArray</li>
     <li>ByteArray.prototype.appendString(v):ByteArray</li>
     <li>ByteArray.prototype.getInt8(pos):int</li>
     <li>ByteArray.prototype.getUint8(pos):uint</li>
@@ -52,11 +52,11 @@ console.log(ByteArray.bytesToPrintable(baMsg.getBytes()));
     <li>ByteArray.prototype.getUint32(pos):uint</li>
     <li>ByteArray.prototype.getInt64(pos):String</li>
     <li>ByteArray.prototype.getUint64(pos):String</li>
-    <li>ByteArray.prototype.getBytes(pos, [length]):array</li>
+    <li>ByteArray.prototype.getBytes(pos[, length]):array</li>
     <li>ByteArray.prototype.buffer:Buffer</li>
     <li>ByteArray.fromUTF8(v:array):String</li>
     <li>ByteArray.toUTF8(v):array</li>
-    <li>ByteArray.bytesToPrintable(v:array, startPos, endPos):array</li>
+    <li>ByteArray.bytesToPrintable(v:array[, startPos[, endPos]]):array</li>
 </ul>
 
 # License
