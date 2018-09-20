@@ -8,18 +8,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/erisenxu/ByteArray.js.git"
+    "url": "git+https://github.com/erisenxu/pp-bytearray.git"
   },
   "keywords": [
     "byte array",
-    "buffer"
+    "buffer",
+    "protocol pack",
+    "pp"
   ],
   "author": "erisenxu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/erisenxu/ByteArray.js/issues"
+    "url": "https://github.com/erisenxu/pp-bytearray/issues"
   },
-  "homepage": "https://github.com/erisenxu/ByteArray.js#readme",
+  "homepage": "https://github.com/erisenxu/pp-bytearray#readme",
   "dependencies": {
     "big-integer": "^1.6.36"
   }

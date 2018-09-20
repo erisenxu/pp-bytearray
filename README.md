@@ -24,7 +24,8 @@ console.log(baMsg.length);      // 5
 console.log(baMsg.getUint64(5)); // 18446744073709551615
 console.log(baMsg.length);      // 13
 
-baMsg.buffer.writeUInt32BE(0xf0f0f0f0, 1);  // To write bytes by pos.
+// Change bytes by using ByteArray.prototype.buffer
+baMsg.buffer.writeUInt32BE(0xf0f0f0f0, 1);  // Use ByteArray.prototype.buffer to write bytes by pos.
 console.log(baMsg.getUint32(1)); // 4042322160 (=0xf0f0f0f0)
 
 console.log(ByteArray.bytesToPrintable(baMsg.getBytes()));
@@ -53,6 +54,7 @@ console.log(ByteArray.bytesToPrintable(baMsg.getBytes()));
     <li>ByteArray.prototype.getInt64(pos):String</li>
     <li>ByteArray.prototype.getUint64(pos):String</li>
     <li>ByteArray.prototype.getBytes(pos[, length]):array</li>
+    <li>ByteArray.prototype.clear():void</li>
     <li>ByteArray.prototype.buffer:Buffer</li>
     <li>ByteArray.fromUTF8(v:array):String</li>
     <li>ByteArray.toUTF8(v):array</li>
