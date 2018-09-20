@@ -4,8 +4,8 @@ A very simple script for writing and reading bytes in Javascript with node.js an
 # Installation
 If you are using a browser, you can download ByteArray.min.js from GitHub and then hotlink to it(note: you must hotlink BigInteger firstly):
 <pre>
-<script src="http://peterolson.github.com/BigInteger.js/BigInteger.min.js"></script>
-<script src="ByteArray.min.js"></script>
+&lt;script src="http://peterolson.github.com/BigInteger.js/BigInteger.min.js"&gt;&lt;/script&gt;
+&lt;script src="ByteArray.min.js"&gt;&lt;/script&gt;
 </pre>
 If you are using node, you can install ByteArray with npm.
 <pre>
