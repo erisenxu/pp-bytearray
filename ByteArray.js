@@ -2,7 +2,7 @@ if (typeof require === "function") var bigInt = require("big-integer");
 
 if (typeof Buffer === 'undefined') {
 
-    Buffer = (function() {
+    var Buffer = (function() {
 
         function Buffer(args) {
             var arr = new Uint8Array(args);
@@ -44,9 +44,15 @@ var ByteArray = (function() {
         if (params instanceof Buffer) {
             this.length = params.length;
             this.buffer = params;
-        } else {
+        } else if (params instanceof ArrayBuffer || params instanceof Array) {
+            this.buffer = new Buffer(params);
+            this.length = params.length;
+        } else if (typeof params === 'number' || typeof params === 'undefined') {
             this.length = 0;
             this.buffer = new Buffer(params || 1024);
+        } else {
+            this.length = 0;
+            this.buffer = new Buffer(1024);
         }
     }
 
@@ -245,7 +251,7 @@ var ByteArray = (function() {
             s += b[i].toString(16).padStart(2, '0');
             s += ' ';
         }
-        return s;    
+        return s;
     };
 
     return ByteArray;
