@@ -46,7 +46,7 @@ var ByteArray = (function() {
             this.buffer = params;
         } else if (params instanceof ArrayBuffer || params instanceof Array) {
             this.buffer = new Buffer(params);
-            this.length = params.length;
+            this.length = this.buffer.length;
         } else if (typeof params === 'number' || typeof params === 'undefined') {
             this.length = 0;
             this.buffer = new Buffer(params || 1024);
