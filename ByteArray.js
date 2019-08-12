@@ -217,8 +217,9 @@ var ByteArray = (function() {
             return Array.from(Buffer.from(s));
         } else {
             var back = [];
-            for (var i = 0; i < s.length; i++) {
-                var code = s.charCodeAt(i);
+            var as = Array.from(s);
+            for (var i = 0; i < as.length; i++) {
+                var code = as[i].codePointAt(0);
                 if (0x00 <= code && code <= 0x7f) {
                     back.push(code & 0xff);
                 } else if (0x80 <= code && code <= 0x7ff) {
