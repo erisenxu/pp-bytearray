@@ -211,29 +211,45 @@ var ByteArray = (function() {
     };
 
     ByteArray.toUTF8 = function(s) {
-        var back = [];
-        var byteSize = 0;
-        for (var i = 0; i < s.length; i++) {
-            var code = s.charCodeAt(i);
-            if (0x00 <= code && code <= 0x7f) {
-                byteSize += 1;
-                back.push(code);
-            } else if (0x80 <= code && code <= 0x7ff) {
-                byteSize += 2;
-                back.push((192 | (31 & (code >> 6))));
-                back.push((128 | (63 & code)));
-            } else if ((0x800 <= code && code <= 0xd7ff) ||
-                (0xe000 <= code && code <= 0xffff)) {
-                byteSize += 3;
-                back.push((224 | (15 & (code >> 12))));
-                back.push((128 | (63 & (code >> 6))));
-                back.push((128 | (63 & code)));
+        if (typeof TextEncoder === 'function') {
+            return Array.from(new TextEncoder().encode(s));
+        } else if (typeof Buffer === 'function' && typeof Buffer.from === 'function') {
+            return Array.from(Buffer.from(s));
+        } else {
+            var back = [];
+            for (var i = 0; i < s.length; i++) {
+                var code = s.charCodeAt(i);
+                if (0x00 <= code && code <= 0x7f) {
+                    back.push(code & 0xff);
+                } else if (0x80 <= code && code <= 0x7ff) {
+                    back.push((0xc0 | (0x1f & (code >> 6))) & 0xff);
+                    back.push((0x80 | (0x3f & code)) & 0xff);
+                } else if ((0x800 <= code && code <= 0xffff)) {
+                    back.push((0xe0 | (0xf & (code >> 12))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 6))) & 0xff);
+                    back.push((0x80 | (0x3f & code)) & 0xff);
+                } else if ((0x10000 <= code && code <= 0x1fffff)) {
+                    back.push((0xf0 | (0x7 & (code >> 18))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 12))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 6))) & 0xff);
+                    back.push((0x80 | (0x3f & code)) & 0xff);
+                } else if ((0x200000 <= code && code <= 0x3ffffff)) {
+                    back.push((0xf8 | (0x3 & (code >> 24))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 18))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 12))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 6))) & 0xff);
+                    back.push((0x80 | (0x3f & code)) & 0xff);
+                } else if ((0x4000000 <= code && code <= 0x7fffffff)) {
+                    back.push((0xf8 | (0x1 & (code >> 30))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 24))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 18))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 12))) & 0xff);
+                    back.push((0x80 | (0x3f & (code >> 6))) & 0xff);
+                    back.push((0x80 | (0x3f & code)) & 0xff);
+                }
             }
+            return back;
         }
-        for (i = 0; i < back.length; i++) {
-            back[i] &= 0xff;
-        }
-        return back;
     };
 
     ByteArray.bytesToPrintable = function(b, start, end) {
