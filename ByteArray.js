@@ -191,23 +191,48 @@ var ByteArray = (function() {
         if (typeof arr === 'string') {
             return arr;
         }
-        var UTF = '';
-        for (var i = 0; i < arr.length; i++) {
-            var one = arr[i].toString(2);
-            var v = one.match(/^1+?(?=0)/);
-            if (v && one.length == 8) {
-                var bytesLength = v[0].length;
-                var store = arr[i].toString(2).slice(7 - bytesLength);
-                for (var st = 1; st < bytesLength; st++) {
-                    store += arr[st + i].toString(2).slice(2);
-                }
-                UTF += String.fromCharCode(parseInt(store, 2));
-                i += bytesLength - 1;
+        var utf = '';
+        for (var i = 0; i < arr.length;) {
+            var f = arr[i];
+            var u = 0;
+
+            if ((f & 0x80) === 0) {
+                utf += String.fromCharCode(arr[i++]);
+            } else if ((f & 0xfc) === 0xfc) {
+                u = (arr[i++] & 0x1) << 30;
+                u |= (arr[i++] & 0x3f) << 24;
+                u |= (arr[i++] & 0x3f) << 18;
+                u |= (arr[i++] & 0x3f) << 12;
+                u |= (arr[i++] & 0x3f) << 6;
+                u |= (arr[i++] & 0x3f);
+                utf += String.fromCodePoint(u);
+            } else if ((f & 0xf8) === 0xf8) {
+                u = (arr[i++] & 0x3) << 24;
+                u |= (arr[i++] & 0x3f) << 18;
+                u |= (arr[i++] & 0x3f) << 12;
+                u |= (arr[i++] & 0x3f) << 6;
+                u |= (arr[i++] & 0x3f);
+                utf += String.fromCodePoint(u);
+            } else if ((f & 0xf0) === 0xf0) {
+                u = (arr[i++] & 0x7) << 18;
+                u |= (arr[i++] & 0x3f) << 12;
+                u |= (arr[i++] & 0x3f) << 6;
+                u |= (arr[i++] & 0x3f);
+                utf += String.fromCodePoint(u);
+            } else if ((f & 0xe0) === 0xe0) {
+                u = (arr[i++] & 0xf) << 12;
+                u |= (arr[i++] & 0x3f) << 6;
+                u |= (arr[i++] & 0x3f);
+                utf += String.fromCodePoint(u);
+            } else if ((f & 0xc0) === 0xc0) {
+                u = (arr[i++] & 0x1f) << 6;
+                u |= (arr[i++] & 0x3f);
+                utf += String.fromCodePoint(u);
             } else {
-                UTF += String.fromCharCode(arr[i]);
+                utf += String.fromCharCode(arr[i++]);
             }
         }
-        return UTF;
+        return utf;
     };
 
     ByteArray.toUTF8 = function(s) {
@@ -241,7 +266,7 @@ var ByteArray = (function() {
                     back.push((0x80 | (0x3f & (code >> 6))) & 0xff);
                     back.push((0x80 | (0x3f & code)) & 0xff);
                 } else if ((0x4000000 <= code && code <= 0x7fffffff)) {
-                    back.push((0xf8 | (0x1 & (code >> 30))) & 0xff);
+                    back.push((0xfc | (0x1 & (code >> 30))) & 0xff);
                     back.push((0x80 | (0x3f & (code >> 24))) & 0xff);
                     back.push((0x80 | (0x3f & (code >> 18))) & 0xff);
                     back.push((0x80 | (0x3f & (code >> 12))) & 0xff);

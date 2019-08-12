@@ -1,6 +1,6 @@
 {
   "name": "pp-bytearray",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A very simple script for writing and reading bytes in Javascript with node.js and web browser support",
   "main": "ByteArray.js",
   "scripts": {
