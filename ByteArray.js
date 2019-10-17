@@ -1,5 +1,7 @@
 if (typeof require === "function") var bigInt = require("big-integer");
 
+var Buffer = global && global.Buffer ? global.Buffer : undefined;
+
 if (typeof Buffer === 'undefined') {
 
     var Buffer = (function() {
